@@ -13,13 +13,30 @@ console.log (res);
 
         let tempC = (res.main.temp - 273.15).toFixed(2);
         let feelsLikeC = (res.main.feels_like - 273.15).toFixed(2);
+
+        const d=new Date((res.dt + res.timezone)* 1000);
+        let h=d.getUTCHours();
+        let m=d.getUTCMinutes();
+        const date =h>=12? "PM" : "AM";
+        h = h% 12 || 12;
+        m=m.toString().padStart(2,"0")
+        const localtime= `${h}:${m} ${date}`
+
+        const sunrise=res.sys.sunrise + res.timezone;
+        const sunset=res.sys.sunset+ res.timezone
+        const isday =(res.dt + res.timezone)> sunrise && (res.dt + res.timezone)<sunset;
+        const daystatus = isday ? "Day🌞": "Night🌙"
+
          
  cityname.innerHTML=`<div style="background: rgba(0,0,0,0.4); color: white; padding: 15px; border-radius: 10px;">
                     <h2>${res.name}, ${res.sys.country}</h2>
-                    <p>🌡️ Temperature: ${tempC} °C</p>
-                    <p>🍃 Feels Like: ${feelsLikeC} </p>
-                    <p>💧 Humidity: ${res.main.humidity}%</p>
-                    <p>☁️ Condition: ${res.weather[0].description}</p>
+                    <p>${localtime} (${daystatus}) </p>
+                    <p>Temperature: ${tempC} °C</p>
+                    <p>Feels Like: ${feelsLikeC} </p>
+                    <p>Weather: ${res.weather[0].description}</p>
+                    <p>Humidity: ${res.main.humidity}%</p>
+                    <p>Cloud: ${res.clouds.all}%</p>
+                    <p>Wind: ${res.wind.speed}</p>
             </div>`
 
 })}
