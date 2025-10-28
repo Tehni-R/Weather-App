@@ -22,10 +22,11 @@ console.log (res);
         m=m.toString().padStart(2,"0")
         const localtime= `${h}:${m} ${date}`
 
+       const local = res.dt + res.timezone;
         const sunrise=res.sys.sunrise + res.timezone;
         const sunset=res.sys.sunset+ res.timezone
-        const isday =(res.dt + res.timezone)> sunrise && (res.dt + res.timezone)<sunset;
-        const daystatus = isday ? "Day🌞": "Night🌙"
+        const isday =res.dt >= res.sys.sunrise && res.dt < res.sys.sunset;
+        const daystatus = isday ? "Day🌞":"Night🌙"
 
          
  cityname.innerHTML=`<div style="background: rgba(0,0,0,0.4); color: white; padding: 15px; border-radius: 10px;">
